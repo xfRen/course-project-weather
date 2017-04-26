@@ -8,6 +8,7 @@ var app = express();
 const PORT = process.env.PORT || 3000;
 
 // openWeatherMap API only works with HTTP not HTTPS, below code will re-direct HTTPS traffic to HTTP
+// setup express middleware below:
 app.use(function(request, response, next) {
 	if (request.headers['x-forwarded-proto'] === 'http') {
 		next();
