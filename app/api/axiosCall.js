@@ -15,7 +15,7 @@ The client-side React app is only responsible for making API calls to the Node b
 */
 
 const axios = require('axios');
-
+// Sensitive data should be put in configuration files that are not tracked by version control
 const URL = "http://api.openweathermap.org/data/2.5/weather?appid=fea8978188f04e631a4ba8196b3be481&units=imperial";
 
 module.exports = {
