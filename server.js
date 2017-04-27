@@ -3,7 +3,7 @@ const express = require('express');
 const path = require('path');
 
 // create an app
-var app = express();
+const app = express();
 // changes for HEROKU: PORT is added
 const PORT = process.env.PORT || 3000;
 
@@ -16,7 +16,9 @@ app.use(function(request, response, next) {
 		response.redirect('http://' + request.hostname + request.url);
 	}
 });
-
+// middleware needs to be added before static server configuration
+// We want to run the middleware first, then server up our static assets.
+// Otherwise, custom middleware is never getting a chance to redirect.
 app.use(express.static('public'));
 // added below part to use browserHistory rather than hashHistory
 app.get('*', function(request, response) {
