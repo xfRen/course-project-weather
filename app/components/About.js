@@ -25,7 +25,10 @@ const React = require('react');
 
 var About = (props) => {
   return (
-    <h2>About component</h2>
+    <div>
+      <h2>About</h2>
+      <p>Place Holder</p>
+    </div>
   );
 };
 
