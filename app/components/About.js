@@ -24,7 +24,6 @@ const React = require('react');
 // P.S. They're also much easier to test.
 
 var About = (props) => {
-  debugger;
   return (
     <h2>About component</h2>
   );
