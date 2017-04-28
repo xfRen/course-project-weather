@@ -34,22 +34,16 @@ class MyComponent extends React.Component {
 
 You can checkout a runnable CodePen: http://codepen.io/andrewjmead/pen/MbMMYK?editors=0010
 */
-// var Main = React.createClass({
-//   render: function() {
-//     return (
-//       <div>
-//         <TopNav/>
-//         {this.props.children}
-//       </div>
-//     );
-//   }
-// });
 
 var Main = (props) => {
   return (
     <div>
       <TopNav/>
-      {props.children}
+      <div className="row">
+        <div className="small-10 medium-4 small-centered columns">
+          {props.children}
+        </div>
+      </div>
     </div>
   );
 };

@@ -12,7 +12,6 @@ var Weather = React.createClass({
 
   The same is true with props. Behind the scene React is looking to see if the DOM would change based on the new props.
   If the DOM does change, React goes ahead an updates the browser with the new DOM.
-  If the DOM doesn't change, React avoids unnecessarily re-rendering the component.
 
   From the docs: "By default, when your component's state or props change, your component will re-render."
   */
@@ -29,7 +28,7 @@ var Weather = React.createClass({
     }
     return (
       <div>
-        <h1>Get Weather</h1>
+        <h1 className="text-center">Get Weather</h1>
         <WeatherForm getWeather={this.getWeather}/>
         {renderMessage()}
       </div>

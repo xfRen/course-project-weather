@@ -28,6 +28,17 @@ const Weather = require('Weather');
 const About = require('About');
 const Example = require('Example');
 
+// load foundation
+// You can use "import 'style!css!foundation-sites/dist/foundation.min.css';" to do the same thing!
+// It's a shortcut for when you want to require/import a file but don't need to create a new variable to store any of the files exports.
+
+// The "name!" syntax is used to tell webpack which loaders to use.
+// The exclamation mark is just the convention they picked.
+// These two loaders will process the css file and add the styles to the project.
+// The css! loader will run first and then style! will execute.
+require('style!css!foundation-sites/dist/css/foundation.min.css')
+$('document').foundation();
+
 /*
 Think of IndexRoute like a default route. IndexRoute doesn't take a 'path' prop. It uses the parent route path for that.
 So in this case, visiting the root of the application would render Main and render Weather inside of it.
