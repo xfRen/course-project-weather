@@ -19,7 +19,7 @@ var Weather = React.createClass({
     var {isLoading, city, temperature} = this.state;
     function renderMessage() {
       if (isLoading) {
-        return <p>Fetching weather...</p>
+        return <p className="text-center">Fetching weather...</p>
       } else {
         if (typeof city !== 'undefined' && typeof temperature !== 'undefined') { //You should never use non-strict comparison for numbers
           return <WeatherMessage city={city} temperature={temperature}/>
