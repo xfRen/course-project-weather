@@ -36,9 +36,15 @@ const Example = require('Example');
 // The exclamation mark is just the convention they picked.
 // These two loaders will process the css file and add the styles to the project.
 // The css! loader will run first and then style! will execute.
+
+// node_modules is the default location for modules.
+// It's one of the places require looks for potential matches.
+// That's why it's not required here.
 require('style!css!foundation-sites/dist/css/foundation.min.css');
 // load app.css
-require('style!css!applicationStyles');
+// require('style!css!applicationStyles');
+// load app.scss
+require('style!css!sass!appSass');
 // $('document').foundation();
 
 /*

@@ -31,7 +31,7 @@ module.exports = {
       Example: 'app/components/Example',
       Modal: 'app/components/Modal',
       axiosCall: 'app/api/axiosCall',
-      applicationStyles: 'app/styles/app.css'
+      appSass: 'app/styles/app.scss'
     },
     extensions: ['', '.jsx', '.js']
   },
