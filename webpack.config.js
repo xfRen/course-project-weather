@@ -29,6 +29,7 @@ module.exports = {
       WeatherMessage: 'app/components/WeatherMessage',
       About: 'app/components/About',
       Example: 'app/components/Example',
+      Modal: 'app/components/Modal',
       axiosCall: 'app/api/axiosCall'
     },
     extensions: ['', '.jsx', '.js']

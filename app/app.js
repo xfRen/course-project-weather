@@ -37,7 +37,7 @@ const Example = require('Example');
 // These two loaders will process the css file and add the styles to the project.
 // The css! loader will run first and then style! will execute.
 require('style!css!foundation-sites/dist/css/foundation.min.css')
-$('document').foundation();
+// $('document').foundation();
 
 /*
 Think of IndexRoute like a default route. IndexRoute doesn't take a 'path' prop. It uses the parent route path for that.
