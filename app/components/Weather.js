@@ -35,12 +35,13 @@ var Weather = React.createClass({
         }
       }
     };
+    var weatherInstance = this;
     function renderErrorModal () {
       if (typeof errorMessage === 'string') {
         return (
           <Modal message={errorMessage}
-            onClose={() => {
-              this.setState({
+            onClose={function() {
+              weatherInstance.setState({
                 errorMessage: undefined
               });
             }
@@ -77,7 +78,7 @@ var Weather = React.createClass({
 
     // Reason we need to use newProps instead of this.props:
     // componentWillReceiveProps actually fires before the new props are set on the component.
-    // This means that new props are not available via this.props in this lifecycle method. 
+    // This means that new props are not available via this.props in this lifecycle method.
     // The new props are available via that first argument.
     // this.props contains the old props at this point in the component lifecycle.
     var city = newProps.location.query.city;
