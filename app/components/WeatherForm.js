@@ -1,6 +1,9 @@
 const React = require('react');
 
 var WeatherForm = React.createClass({
+  propTypes: {
+    getWeather: React.PropTypes.func.isRequired
+  },
   render: function() {
     return (
       <form onSubmit={this.onSubmitHandler}>
