@@ -3,8 +3,17 @@ const WeatherForm = require('WeatherForm');
 const WeatherMessage = require('WeatherMessage');
 const Modal = require('Modal');
 const axiosCall = require('axiosCall');
+const {browserHistory} = require('react-router');
 
 var Weather = React.createClass({
+  getInitialState: function() {
+    return {
+      isLoading: false,
+      errorMessage: undefined,
+      city: undefined,
+      temperature: undefined
+    };
+  },
   /*
   When you call this.setState, React does more than just update the state object.
   It also checks if the component needs to be re-rendered based on those changes.
@@ -26,13 +35,12 @@ var Weather = React.createClass({
         }
       }
     };
-    var self = this;
     function renderErrorModal () {
       if (typeof errorMessage === 'string') {
         return (
           <Modal message={errorMessage}
-            onClose={function() {
-              self.setState({
+            onClose={() => {
+              this.setState({
                 errorMessage: undefined
               });
             }
@@ -42,20 +50,52 @@ var Weather = React.createClass({
     };
     return (
       <div>
-        <h1 className="text-center page-title">Get Weather</h1>
+        <h1 className="text-center page-title">Get Weather by City</h1>
         <WeatherForm getWeather={this.getWeather}/>
         {renderMessage()}
         {renderErrorModal()}
       </div>
     );
   },
+  componentDidMount: function() { // this method is called once page is loaded -> component is mounted; this method is not called when re-render
+    // The location prop comes from React Router and gets injected into our components because we configured them with React Router.
+    // Everything react-router injects into your component will be under this.props.location
+    var city = this.props.location.query.city;
+    if (typeof city === 'string' && city.length > 0) {
+      var object = {};
+      object.city = city;
+      this.getWeather(object);
+      browserHistory.push('/');
+    }
+  },
+  componentWillReceiveProps: function(newProps) {
+    // this method is called once browserHistory.push() is executed, not matter from inside of this component or from outside
+
+    // By default, your component will not get new props just because the URL updates.
+    // In this case, it's the props passed down from react-router that are causing the componentWillReceiveProps method to fire.
+    // React-router does care when the URL changes. It watches for URL changes and updates any route components with that new information.
+
+    // Reason we need to use newProps instead of this.props:
+    // componentWillReceiveProps actually fires before the new props are set on the component.
+    // This means that new props are not available via this.props in this lifecycle method. 
+    // The new props are available via that first argument.
+    // this.props contains the old props at this point in the component lifecycle.
+    var city = newProps.location.query.city;
+    if (typeof city === 'string' && city.length > 0) {
+      var object = {};
+      object.city = city;
+      this.getWeather(object);
+      browserHistory.push('/');
+    }
+  },
   getWeather: function(object) {
-    var thisInstance = this;
-    thisInstance.setState({
+    this.setState({
       isLoading: true,
-      errorMessage: undefined
+      errorMessage: undefined,
+      city: undefined,
+      temperature: undefined
     });
-    axiosCall.getTemp(object.city).then(function(response) {
+    axiosCall.getTemp(object.city).then((response) => {
       if (response) {
         if (response.status === 200 && response.statusText === "OK") {
           var data = response.data;
@@ -64,7 +104,7 @@ var Weather = React.createClass({
             var city = data.name;
             if (main) {
               var temperature = main.temp;
-              thisInstance.setState({
+              this.setState({
                 city: city,
                 temperature: Math.floor(temperature),
                 isLoading: false,
@@ -74,9 +114,9 @@ var Weather = React.createClass({
           }
         }
       }
-    }).catch(function(error) {
+    }).catch((error) => {
       if (error) {
-        thisInstance.setState({
+        this.setState({
           city: undefined,
           temperature: undefined,
           isLoading: false,
@@ -91,12 +131,6 @@ var Weather = React.createClass({
         // The alert call is just a temporary solution that allowed us to get things up and running quickly.
       }
     });
-  },
-  getInitialState: function() {
-    return {
-      isLoading: false,
-      errorMessage: undefined
-    };
   }
 });
 

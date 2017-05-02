@@ -2,7 +2,7 @@ const React = require('react');
 
 // Use the destructuring syntax even if you are pulling off only one property.
 // It's cleaner and easier to extend in the future.
-const {Link, IndexLink} = require('react-router');
+const {Link, IndexLink, browserHistory} = require('react-router');
 
 var TopNav = React.createClass({
   componentDidMount: function(){
@@ -35,7 +35,7 @@ var TopNav = React.createClass({
             <div className="top-bar-right">
               <form onSubmit={this.onSearch} className="menu">
                 <li>
-                  <input type="search" placeholder="Enter city name"/>
+                  <input type="search" placeholder="Enter city name" ref="searchInput"/>
                 </li>
                 <li>
                   <input type="submit" className="button" value="Get Weather"/>
@@ -47,9 +47,16 @@ var TopNav = React.createClass({
       </div>
     );
   },
-  onSearch: (event) => {
+  onSearch: function(event) {
     event.preventDefault();
-    alert("Not yet wired up");
+    var searchRef = this.refs.searchInput;
+    if (searchRef.value.length > 0) {
+      var city = searchRef.value;
+      searchRef.value = '';
+
+      var encodedCity = encodeURIComponent(city);
+      browserHistory.push('/?city=' + encodedCity);
+    }
   }
 });
 
