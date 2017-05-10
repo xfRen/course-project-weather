@@ -5,11 +5,6 @@ const React = require('react');
 const {Link, IndexLink, browserHistory} = require('react-router');
 
 var TopNav = React.createClass({
-  componentDidMount: function(){
-    // Foundation seems only to work with DOM elements, so kick it off once component is mounted to DOM tree.
-    // (https://gist.github.com/codeboyim/2b72707d892d8427579a)
-    $(this.getDOMNode()).foundation();
-  },
   render: function() {
     return (
       <div>
@@ -46,6 +41,11 @@ var TopNav = React.createClass({
         </div>
       </div>
     );
+  },
+  componentDidMount: function(){
+    // Foundation seems only to work with DOM elements, so kick it off once component is mounted to DOM tree.
+    // (https://gist.github.com/codeboyim/2b72707d892d8427579a)
+    $(this.getDOMNode()).foundation();
   },
   onSearch: function(event) {
     event.preventDefault();
