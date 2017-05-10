@@ -1,0 +1,211 @@
+$$$1. About dependencies and devDependencies in package.json:
+All of our modules except express can be devDependencies.
+This is because webpack bundles the contents of the client-side modules in the bundle.js file which gets deployed to the server.
+Any non-client-side modules, such as express, will need to remain dependencies.
+
+In lecture 138 we explore how to run webpack on the server.
+This allows us to remove the bundle.js file from our Git repo.
+In that lecture we switch the modules from devDependencies to dependencies.
+
+$$$2. About the below externals section in webpack.config.js:
+externals: {
+  jquery: 'jQuery'
+},
+
+jQuery is the normal variable name that's expected in our external files such as foundation.
+This is why the capitalization is important.
+That external statement says "set the global variable jQuery equal to the result of require('jquery')".
+
+$$$3. How to use jQuery CND instead of the npm module
+You can absolutely use a jQuery CDN.
+All you need to do is remove the npm module and remove jQuery from the webpack.config.js entry file array.
+
+Make sure to add the jQuery script tag before the bundle script tag inside of index.html.
+It would look something like this:
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+<script src="bundle.js"></script>
+
+$$$4. How to add foundation icons and fonts to webpack?
+Integrating fonts requires a small configuration change to the webpack.config.js file, as well as to the styles themselves.
+First up, we'll need to add a custom loader for those font files.
+Then we'll need to load in the fonts and add an icon to one of our React components.
+
+To show you how this would work, I put together the following example.
+This integrated the icon font and renders the "skull" icon on the login page.
+I didn't commit this changes, so you'll be able to see exactly what I changed to set this up.
+ -------------------- Check react-todo-app-with-icons project in downloads folder -----------------------
+
+$$$5. If you want to use Bootstrap instead of Foundation, check these out:
+https://www.udemy.com/the-complete-react-web-app-developer-course/learn/v4/questions/1738852
+https://bitbucket.org/theokennygist/react-bootstrap-boilerplate.git
+
+$$$6. Both devDependencies and dependencies in package.json are required for developers to work on the app locally.
+The difference is that devDependencies are not needed by the server deploying the application (Heroku, AWS, Digital Ocean, etc).
+
+$$$7. Why we need git, GitHub, HEROKU?
+We use git to track the code
+We use GitHub to back it up and collaborate with others
+We use Heroku so that we have a real url for the application
+
+$$$8. React router vs. express router
+These are two different types of routes when we use hash history.
+Your server routes and client-side routes are going to do different things.
+The server route is responsible for responding to the client HTTP request.
+If someone requests the root of the app, the index.ejs template will get sent back and rendered by the browser.
+
+The react-router routes are client-side routes. These do not fetch HTML from the server.
+Instead, client routes allow some JavaScript code to be run based on the client-side route.
+In the case of react-router, that code will render the React component specified.
+
+$$$9. Why we should add the jquery and foundation to entry but we don't need to add react?
+This is because React supports the module system while Foundation does not support module importing.
+I picked out Foundation as a specific example to show you how to use a regular JavaScript library with Webpack.
+
+$$$10.
+I use functional stateless components when I'm working with a component that requires nothing but a render function and doesn't require state.
+If I need a lifecycle method like componentDidMount, I'll use React.createClass.
+If I need to manage some state, I'll use React.createClass.
+If I need to create a custom method to help with rendering, I'll use React.createClass.
+
+Benefits of using Stateless functional components:
+Stateless functional components do have a simpler/shorter syntax.
+They are also faster than class based components.
+React optimizes these components behind the scenes, and they end up requiring a lot less memory and processing power.
+There's no state or lifecycle methods to manage behind the scenes. This is where the speed advantage comes from!
+They're also much easier to test.
+
+$$$11.
+When exporting and importing, there are two main ways.
+ES5 - When we import via ES5, we use the require function along with module.exports.
+This is what we did for the first half of the course.
+ES6 - ES6 imports differ from ES5 imports. Instead of require, we use the import statement.
+Instead of module.exports, we use the export keyword.
+
+$$$12. What does axios do?
+axios is a Promise based HTTP client for the browser and node.js;
+It allows developers to make XMLHttpRequests from the browser and make http requests from node.js
+It is a HTTP request library, and it simplifies the process of making and parsing HTTP requests
+Another example is jQuery.ajax, which is also a HTTP library
+jQuery.ajax, superagent, Axios, and many others all aim to solve the same problem.
+They all use XMLHttpRequest behind the scenes, adding their own syntax on top of it.
+
+A 3rd party HTTP library makes development much easier. It's faster to use, easy to customize.
+This is how you would make an HTTP request without a 3rd party library:
+
+  var xmlhttp = new XMLHttpRequest();
+
+  xmlhttp.onreadystatechange = function() {
+      if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+         if (xmlhttp.status == 200) {
+             // Do something on success
+         }
+         else if (xmlhttp.status == 400) {
+             // Do something on 400
+         }
+         else {
+             // Do something else
+         }
+      }
+  };
+
+  xmlhttp.open("GET", "ajax_info.txt", true);
+  xmlhttp.send();
+
+  $$$13. Something about React, axios, and Node.js
+  React (which is a library as well) lets me render stuff to the DOM and respond to user interaction.
+  Axios let me make HTTP requests.
+  This means I can spend less time writing generic library code and more time building out things specific to my application.
+
+  Most of my client projects do have a Node server and a React client.
+  The Node server takes care of database requests, 3rd-part api requests, and more.
+  The client-side React app is only responsible for making API calls to the Node back-end.
+
+  $$$14. Use Axios over jQuery $.ajax
+  A year ago I used jQuery for all my Ajax requests.
+  I got frustrated with it as ES6 promises became the standard.
+  I knew jQuery would never make sweeping changes to their API,
+  so I looked for a dedicated HTTP client library that was Promise based from the beginning.
+
+  I went with Axios for a few reasons:
+
+  * I'm able to use regular ES6 promises
+
+  * I can use the same library in Node and in the Browser (this is awesome)
+
+  * It's super popular and has a lot of great documentation, developers, and community Q&As.
+
+  * It's footprint is tiny
+
+  $$$15. 5 libraries for making AJAX calls in React: jQuery $.ajax, Fetch API, Superagent, Axios, and Request
+  comparison - https://hashnode.com/post/5-best-libraries-for-making-ajax-calls-in-react-cis8x5f7k0jl7th53z68s41k1
+
+  $$$16. Why React PropTypes are important?
+  Defining propTypes just makes life easier. It's a clear outline of the exact props a component expects.
+  This makes it really easy to use a component without having to read thought the entire component source looking for the various props it uses.
+  You just need to peak at the propTypes definition.
+
+  The propTypes object kind of defines the ‘interface’ for using a component.
+  Always put it near the top of your component. Define a prop in the propTypes before you write any code using the actual prop.
+  This prevents you from forgetting and makes you more aware of the ‘dependencies’ your component has to external data.
+  Although propTypes are optional, you should always use them!
+
+  $$$17. Foundation and jQuery
+  Foundation requires jQuery as a dependency.
+  The Foundation scripts attaches a foundation method onto jQuery when it loads.
+  The Foundation method itself is responsible for bootstrapping all foundation plugins that are currently rendered to the screen.
+
+  $$$18. Question: Why not use the automatic deploy to heroku from github push?  in heroku -> deploy -> connect app to github -> aut deploy
+  Answer: You absolutely could. I prefer to manually deploy my production applications.
+  I've never been a fan of auto-deploying a branch because there are times I want to get my code ready,
+  but I'm not ready to deploy the new version live.
+  This becomes more of an issue when you have multiple apps communicating with each other.
+
+  $$$19. Question: If both foundation and our code apply styling to say for example <input type=search> tags,
+  then how do we know in the end whose styles are being applied? How can we make sure that our style is applied on top of foundations?
+  Answer: This has to do with the order the styles are applied.
+  We require foundation first and then we require our own styles.
+  This means that our own styles will always override any styles that foundation might setup.
+
+  $$$20. style-loader and css-loader can be included in webpack.config.js file. It would be something like this:
+  loaders: [
+            // Extract css files
+            {
+                test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+                ...
+  In this case, we added the loader directly to the require call instead of defining them in the webpack config file.
+  This is why they don't show up there.
+  We're also able to remove the "-loader" part in this syntax. So "style-loader" become "style". "css-loader" becomes "css".
+
+  $$$21. http://files.mead.io/1e091P3H2h09 includes 4 ways you can load images.
+
+  $$$22. Foundation does not support the module system. This is why we made an exception for it and added it into the webpack config.
+  It's available globally in your project because of that.
+
+  $$$23. Reason to use hashHistory:
+  The hash allows us to switch URLs without reloading the page.
+  It's a way of tracking the client-side location without requesting new pages from the server.
+
+  $$$24. ReactDOMServer
+  ReactDOMServer.renderToString allows us to convert our JSX into HTML that we can render into the browser.
+  Example:
+  var modalMarkup = (
+  <div>
+    <h1>...</h1>
+    ...
+  </div>
+  );
+  var $modal = $(ReactDOMServer.renderToString(modalMarkup));
+  $(ReactDOM.findDOMNode(this)).html($modal);
+
+  $$$25. Andrew talked about alias: I usually only uppercase files/aliases when it's for a component.
+  This follows the same naming convention as the React component names themselves.
+  Aliases like applicationStyles or openWeatherMap are not components, so I've chosen to leave the first letter lowercase.
+
+  $$$26. Example to understand {this.props.children}:
+  https://jsfiddle.net/andrewjmead/Lz68h7hy/
+
+  $$$27. The "main" property in package.json is not used for our purposes.
+  main is used when you're creating an npm package that other developers will be installing and using.
+  We would use main if we were creating a library that we published to npm.
+  main is not used when you're creating an app that uses npm dependencies.
